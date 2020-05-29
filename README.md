@@ -34,3 +34,10 @@ COMING SOON
 
 ### Linux
 COMING SOON
+
+# Links
+- [Heaps Docs](https://heaps.io/api/)
+- [Heaps Docs - 2D](https://heaps.io/api/h2d/)
+## DeepNight Tutorials
+- [Install Haxe/Heaps](https://deepnight.net/tutorial/a-quick-guide-to-installing-haxe/)
+- Using gameBase, haxe-heaps template [tutorial](https://deepnight.net/tutorial/using-my-gamebase-to-create-a-heaps-game/)
