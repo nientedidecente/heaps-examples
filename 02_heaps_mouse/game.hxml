@@ -1,8 +1,9 @@
 # linking heaps library
 -lib heaps
 # linking the hldx (DirectX) library (works only under Windows)
-# on other OS you can use hlsdl to link SDL
--lib hldx
+# on other OS you can use hlsdl to link SDL, -lib hlsdl
+#-lib hldx
+-lib hlsdl
 # Define the main class of the application with an entry point
 -main Game
 # Output file

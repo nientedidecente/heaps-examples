@@ -16,8 +16,8 @@ class Game extends hxd.App {
 		// The third parameter is the object they will be attached to.
 		// In this example i will handle mouse events for our tile b.
 		var i = new h2d.Interactive(b.tile.width, b.tile.height, b);
-        // since we centered the tile anchor, we would need to compensate aligning the Interactive
-        // object the same amount.
+		// since we centered the tile anchor, we would need to compensate aligning the Interactive
+		// object the same amount.
 		i.x = -0.5 * b.tile.width;
 		i.y = -0.5 * b.tile.height;
 
