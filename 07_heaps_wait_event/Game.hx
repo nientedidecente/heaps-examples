@@ -1,31 +1,31 @@
-class Game extends hxd.App
-{
-    static function main()
-    {
-        hxd.Res.initLocal();
+class Game extends hxd.App {
+	static function main() {
+		hxd.Res.initLocal();
+
+		new Game();
+	}
+
+	var w:hxd.WaitEvent;
+
+	override function init() {
+        // WaitEvent https://heaps.io/api/hxd/WaitEvent.html
+		w = new hxd.WaitEvent();
+		// a WaitEvent.wait call will delay a function execution of a certain amount of seconds
+		w.wait(2, function() {
+			trace("Kept you waiting, huh?");
+        });
         
-        new Game();
-    }
+		// we add to the waitEvent the everyFrameRoutine function
+		w.add(everyFrameRoutine);
+	}
 
-    var w:hxd.WaitEvent;
+	override function update(dt:Float) {
+        // the function everyFrameRoutine will be now executed every frame
+		w.update(dt);
+	}
 
-    override function init() 
-    {
-        w = new hxd.WaitEvent();
-        // Отложенное выполнение функции
-        w.wait(2, function() {trace("Kept you waiting, huh?");});
-        // функция everyFrameRoutine будет выполняться каждый кадр
-        w.add(everyFrameRoutine);
-    }
-
-    override function update(dt:Float) 
-    {
-        w.update(dt);
-    }
-
-    function everyFrameRoutine(dt:Float):Bool
-    {
-        trace("everyFrameRoutine");
-        return false;
-    }
+	function everyFrameRoutine(dt:Float):Bool {
+		trace("everyFrameRoutine");
+		return false;
+	}
 }
