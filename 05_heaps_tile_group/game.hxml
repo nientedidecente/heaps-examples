@@ -1,9 +1,10 @@
-# Подключение библиотеки heaps
+# linking heaps library
 -lib heaps
-# Подключение библиотеки hldx (работает только под Windows)
-# Альтернативно можно использовать hlsdl
--lib hldx
-# Задаем основной класс приложения с точкой входа
+# linking the hldx (DirectX) library (works only under Windows)
+# on other OS you can use hlsdl to link SDL, -lib hlsdl
+#-lib hldx
+-lib hlsdl
+# Define the main class of the application with an entry point
 -main Game
-# Выходной файл
+# Output file
 -hl game.hl
