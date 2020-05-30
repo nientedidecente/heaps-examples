@@ -27,6 +27,20 @@ You will be able to run that file by just typing:
 hl game.hl
 ```
 
+### JS Examples
+Some examples, like `./12_heaps_bitmap_font` have a 2 `.hxml` files, the `game.hxml` one will be used, as in the other examples to build an `hashlink` bytecode, the `js.hxml` instead is used to transpile the heaps game to a javascript file.
+
+You can run it, after running the haxe compiler with
+```
+haxe js.hxml
+```
+by just opening the `index.html` file in the same folder, if this won't work try to feed the directory to a web server.
+
+**Example**
+```
+python3 -m http.server --directory .
+```
+
 ## How To Install Haxe and Hashlink
 
 ### Windows
