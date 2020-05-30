@@ -22,13 +22,12 @@ class Game extends hxd.App {
 		obj.playAnimation(anim);
 
 		// setup the lights on the stage
-		var light = new h3d.scene.DirLight(new h3d.Vector(0.3, -0.4, -0.9), s3d);
+		var light = new h3d.scene.fwd.DirLight(new h3d.Vector(0.3, -0.4, -0.9), s3d);
 		light.enableSpecular = true;
 		light.color.set(0.28, 0.28, 0.28);
 		s3d.lightSystem.ambientLight.set(0.74, 0.74, 0.74);
 
-        // Create a simple CameraController
-        // so it can be driven by the mouse
+        // Create a simple CameraController so we can navigate the scene using the mouse
 		new h3d.scene.CameraController(s3d).loadFromCamera();
 
 		engine.backgroundColor = 0xFF808080;
