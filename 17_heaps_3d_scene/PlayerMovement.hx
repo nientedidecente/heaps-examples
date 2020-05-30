@@ -1,26 +1,22 @@
 // just helper class to hold object position on plane
-class Point
-{
+class Point {
 	public var x:Float;
 	public var y:Float;
 
-	public function new(x:Float = 0, y:Float = 0)
-	{
+	public function new(x:Float = 0, y:Float = 0) {
 		this.x = x;
 		this.y = y;
 	}
 }
 
 // just helper class to hold world bounds
-class Rect
-{
+class Rect {
 	public var x:Float;
 	public var y:Float;
 	public var width:Float;
 	public var height:Float;
 
-	public function new(x:Float = 0, y:Float = 0, width:Float = 0, height:Float = 0)
-	{
+	public function new(x:Float = 0, y:Float = 0, width:Float = 0, height:Float = 0) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -32,17 +28,16 @@ class Rect
  * This example uses `differ` library for collision detection.
  * You can install it from git: `haxelib git differ https://github.com/snowkit/differ.git`
  * (haxelib version of `differ` currently is incompatible with Haxe 4.0.0.5preview or higher)
- **/
+**/
 class PlayerMovement extends hxd.App {
-
 	// Light source for our scene
-	var light : h3d.scene.fwd.DirLight;
+	var light:h3d.scene.fwd.DirLight;
 
 	// player object, which we will controll
-	var player : h3d.scene.Object;
-	
+	var player:h3d.scene.Object;
+
 	// just a cube representing floor
-	var floor: h3d.scene.Object;
+	var floor:h3d.scene.Object;
 
 	// position of our player in the world
 	var playerPosition:Point;
@@ -55,7 +50,7 @@ class PlayerMovement extends hxd.App {
 	var cameraHeight:Float;
 
 	// model cache, used for model and animation loading
-	var cache : h3d.prim.ModelCache;
+	var cache:h3d.prim.ModelCache;
 
 	// tells us whether player is currently moving or not
 	var isMoving:Bool = false;
@@ -81,10 +76,9 @@ class PlayerMovement extends hxd.App {
 
 	var interactive:h3d.scene.Interactive;
 
-	override function init() 
-	{
+	override function init() {
 		// let's create and setup lighing on the scene
-		light = new h3d.scene.fwd.DirLight(new h3d.Vector( 0.3, -0.4, -0.9), s3d);
+		light = new h3d.scene.fwd.DirLight(new h3d.Vector(0.3, -0.4, -0.9), s3d);
 		light.enableSpecular = true;
 		light.color.set(0.28, 0.28, 0.28);
 		s3d.lightSystem.ambientLight.set(0.74, 0.74, 0.74);
@@ -107,7 +101,7 @@ class PlayerMovement extends hxd.App {
 		// create cube primitive which we will use for floor object
 		var prim = new h3d.prim.Cube(worldBounds.width, worldBounds.height, 1.0);
 		// translate it so its center will be at the center of the cube
-	//	prim.translate( -0.5 * worldBounds.width, -0.5 * worldBounds.height, -0.5);
+		//	prim.translate( -0.5 * worldBounds.width, -0.5 * worldBounds.height, -0.5);
 		// unindex the faces to create hard edges normals
 		prim.unindex();
 		// add face normals
@@ -165,8 +159,7 @@ class PlayerMovement extends hxd.App {
 		prim.addNormals();
 		// add texture coordinates
 		prim.addUVs();
-		for (i in 0...50)
-		{
+		for (i in 0...50) {
 			// create mesh object which will be rendered on the scene
 			var cube = new h3d.scene.Mesh(prim, s3d);
 			// set random color
@@ -175,83 +168,70 @@ class PlayerMovement extends hxd.App {
 			cube.material.receiveShadows = false;
 			cube.material.shadows = false;
 			// scale and place it randomly on the scene
-			var scale = 0.3 + 0.7 * Math.random();	// scale will be in the range from 0.3 to 1.0
+			var scale = 0.3 + 0.7 * Math.random(); // scale will be in the range from 0.3 to 1.0
 			cube.scale(scale);
 			cube.x = worldBounds.x + Math.random() * (worldBounds.width - scale);
 			cube.y = worldBounds.y + Math.random() * (worldBounds.height - scale);
-			
+
 			// create actual collision object for obstacle
 			obstacles.push(differ.shapes.Polygon.square(cube.x, cube.y, scale, false));
 		}
 
 		collideWithObstacles();
-		
+
 		// setup camera params
 		cameraDistance = 15;
 		cameraHeight = 5;
 		updateCamera();
 
 		interactive = new h3d.scene.Interactive(floor.getCollider(), s3d);
-		interactive.onMove = function(e:hxd.Event) 
-		{
-			if (hxd.Key.isDown(hxd.Key.MOUSE_LEFT))
-			{
+		interactive.onMove = function(e:hxd.Event) {
+			if (hxd.Key.isDown(hxd.Key.MOUSE_LEFT)) {
 				var dx = e.relX - playerPosition.x;
 				var dy = e.relY - playerPosition.y;
 				playerDirection = Math.atan2(dy, dx);
 			}
 		}
 	}
-	
-	override function update(dt:Float) 
-	{
+
+	override function update(dt:Float) {
 		// check whether player moves forward or backward
 		var playerSpeed = 0.0;
 
-		if (hxd.Key.isDown(hxd.Key.UP))
-		{
+		if (hxd.Key.isDown(hxd.Key.UP)) {
 			playerSpeed += 1;
 		}
-		if (hxd.Key.isDown(hxd.Key.DOWN))
-		{
+		if (hxd.Key.isDown(hxd.Key.DOWN)) {
 			playerSpeed -= 1;
 		}
-		
-		if (hxd.Key.isDown(hxd.Key.MOUSE_LEFT))
-		{
+
+		if (hxd.Key.isDown(hxd.Key.MOUSE_LEFT)) {
 			playerSpeed = 1;
 		}
 
 		// check if player is running
 		var runningMultiplicator = 1.0;
-		if (hxd.Key.isDown(hxd.Key.SHIFT))
-		{
+		if (hxd.Key.isDown(hxd.Key.SHIFT)) {
 			// running forward should be faster than backward
-			if (playerSpeed < 0)
-			{
+			if (playerSpeed < 0) {
 				runningMultiplicator = 1.3;
-			}
-			else
-			{
+			} else {
 				runningMultiplicator = 2;
 			}
 		}
 
 		// check if player is turning
-		if (hxd.Key.isDown(hxd.Key.LEFT))
-		{
+		if (hxd.Key.isDown(hxd.Key.LEFT)) {
 			playerDirection -= turnSpeed * runningMultiplicator;
 		}
-		if (hxd.Key.isDown(hxd.Key.RIGHT))
-		{
+		if (hxd.Key.isDown(hxd.Key.RIGHT)) {
 			playerDirection += turnSpeed * runningMultiplicator;
 		}
 
-		if (playerSpeed != 0)
-		{
+		if (playerSpeed != 0) {
 			// update player's position if its moving
 			playerSpeed *= runningMultiplicator;
-			
+
 			playerPosition.x += Math.cos(playerDirection) * walkSpeed * playerSpeed;
 			playerPosition.y += Math.sin(playerDirection) * walkSpeed * playerSpeed;
 
@@ -259,58 +239,48 @@ class PlayerMovement extends hxd.App {
 			collideWithObstacles();
 
 			// change player's animation if its speed has been changed
-			if (movementSpeed != playerSpeed)
-			{
-				if (playerSpeed > 0)
-				{
+			if (movementSpeed != playerSpeed) {
+				if (playerSpeed > 0) {
 					// playing animation for walking forward
 					// if player is running or walking, then we need to adjust animations speed
 					player.playAnimation(walkingAnimation).speed = runningMultiplicator;
-				}
-				else 
-				{
+				} else {
 					// need to play backward animation, but i don't have one
 					// so i won't play anything :(
 				}
-				
+
 				movementSpeed = playerSpeed;
 			}
 
 			isMoving = true;
-		}
-		else
-		{
+		} else {
 			// if player isn't moving we need to reset some of its params
-			if (isMoving)
-			{
+			if (isMoving) {
 				player.stopAnimation();
 				// or migth play idle animation (use switchAnimation() method)...
 			}
-			
+
 			movementSpeed = 0;
 			isMoving = false;
 		}
-		
+
 		// update player's rotation
 		player.setRotation(0, 0, playerDirection + Math.PI / 2);
-		
+
 		// and don't forget to update camera's position
 		updateCamera();
 	}
 
-	function collideWithObstacles()
-	{
+	function collideWithObstacles() {
 		circle.x = playerPosition.x;
 		circle.y = playerPosition.y;
-		
-		for (i in 0...obstacles.length)
-		{
+
+		for (i in 0...obstacles.length) {
 			var obstacle = obstacles[i];
 
 			// check collision between circle (player) and rectangular obstacle (box or wall)
 			var collideInfo = differ.Collision.shapeWithShape(circle, obstacle);
-			if (collideInfo != null) 
-			{
+			if (collideInfo != null) {
 				// if there is collision then we need to resolve collision.
 				// in our case we just move player outside of bounds of the box
 				circle.x += collideInfo.separationX;
@@ -330,8 +300,7 @@ class PlayerMovement extends hxd.App {
 		cylinder.y = playerPosition.y;
 	}
 
-	function updateCamera()
-	{
+	function updateCamera() {
 		var cameraZ = cameraHeight;
 		var cameraXYDist = Math.sqrt(cameraDistance * cameraDistance - cameraHeight * cameraHeight);
 		var cameraXYAngle = Math.PI / 4;
