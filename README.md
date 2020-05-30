@@ -1,18 +1,42 @@
 # heaps-examples
-cloned-rebased translated fork of the russian Beeblerox/Simplest-Heaps-Examples
+cloned-rebased translated fork of the russian **Beeblerox/Simplest-Heaps-Examples**.
 
-I did not directly fork this repo from the original one [Beeblerox/Simplest-Heaps-Examples](https://github.com/Beeblerox/Simplest-Heaps-Examples), I cloned it and rebased, in order to avoid having the full git history.
+We did not directly fork this repo from the original one [Beeblerox/Simplest-Heaps-Examples](https://github.com/Beeblerox/Simplest-Heaps-Examples), We cloned it and rebased, in order to avoid having the full git history.
 
+Apart from translating the existing docs from russian, we are also adding additional documentation and fixing some errors related to the old version of `heaps` used in some examples.
 
-This small repo will be translating the examples and docs presented in this amazing set of examples in English from Russian.
 
 ## How To Run the examples
 
 To run the single codebases you need to have `haxe` and `heaps` installed.
+[Download Haxe](https://haxe.org/download/)
+
+To build/test the example on this repo we have been using the following version
+```
+-> % haxe --version
+4.0.5
+```
+
+every version above `4.x.x` should do fine.
+
+**Installing libs**
+```
+haxelib install heaps hlsdl
+```
+Some examples require the package `differ` too.
+```
+haxelib install differ
+```
+If you want to run them on Windows with DirectX you will need to install `hldx`
+```
+haxelib install hldx
+```
+
 You will also need [Hashlink](https://hashlink.haxe.org/) to run the compiled bytecode.
 
-If you are using VSCode, each folder exposes some tasks that will be executable from the IDE itself.
+If you are using **VSCode**, each folder exposes some tasks that will be executable from the IDE itself.
 
+**How to run the examples**
 Alternatively, if you want to run them on your cli, you will just need to type the following commands:
 
 ```
@@ -41,15 +65,13 @@ by just opening the `index.html` file in the same folder, if this won't work try
 python3 -m http.server --directory .
 ```
 
-## How To Install Haxe and Hashlink
-
-### Windows
-COMING SOON
-
-### Linux
-COMING SOON
-
 # Links
+
+## Haxe
+- [Haxe Syntax Overview](https://learnxinyminutes.com/docs/haxe/)
+- [Haxe Language tutorial](https://learn.haxe.org/)
+
+## Heaps
 - [Heaps Docs](https://heaps.io/api/)
 - [Heaps Docs - 2D](https://heaps.io/api/h2d/)
 ## DeepNight Tutorials
