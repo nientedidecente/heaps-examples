@@ -1,5 +1,7 @@
 ## Compiled output
 game.hl
+game.js
+game.js.map
 
 ## Res folder tmp
 .tmp/

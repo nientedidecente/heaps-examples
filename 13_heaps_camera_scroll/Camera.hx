@@ -2,38 +2,35 @@ package;
 
 import h2d.Scene;
 
-class Camera extends h2d.Sprite
-{
-    public var viewX(get, set):Float;
-    public var viewY(get, set):Float;
+// our custom defined Camera class will
+// extend the h2d.Sprite class https://github.com/HeapsIO/heaps/blob/master/h2d/Sprite.hx
+// which is now deprecated in favour of h2d.Object https://heaps.io/api/h2d/Object.html
+class Camera extends h2d.Sprite {
+	public var viewX(get, set):Float;
+	public var viewY(get, set):Float;
 
-    var scene:Scene;
+	var scene:Scene;
 
-    public function new(scene:Scene)
-    {
-        super(scene);
-        this.scene = scene;
-    }
+	public function new(scene:Scene) {
+		super(scene);
+		this.scene = scene;
+	}
 
-    private function set_viewX(value:Float):Float
-    {
-        this.x = 0.5 * scene.width - value;
-        return value;
-    }
+	private function set_viewX(value:Float):Float {
+		this.x = 0.5 * scene.width - value;
+		return value;
+	}
 
-    private function get_viewX():Float
-    {
-        return 0.5 * scene.width - this.x;
-    }
+	private function get_viewX():Float {
+		return 0.5 * scene.width - this.x;
+	}
 
-    private function set_viewY(value:Float):Float
-    {
-        this.y = 0.5 * scene.height - value;
-        return value;
-    }
+	private function set_viewY(value:Float):Float {
+		this.y = 0.5 * scene.height - value;
+		return value;
+	}
 
-    private function get_viewY():Float
-    {
-        return 0.5 * scene.height - this.y;
-    }
+	private function get_viewY():Float {
+		return 0.5 * scene.height - this.y;
+	}
 }
