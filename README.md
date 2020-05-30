@@ -9,9 +9,10 @@ Apart from translating the existing docs from russian, we are also adding additi
 ## How To Run the examples
 
 To run the single codebases you need to have `haxe` and `heaps` installed.
+
 [Download Haxe](https://haxe.org/download/)
 
-To build/test the example on this repo we have been using the following version
+In order to build/test the examples on this repo we have been using the following version
 ```
 -> % haxe --version
 4.0.5
@@ -37,6 +38,7 @@ You will also need [Hashlink](https://hashlink.haxe.org/) to run the compiled by
 If you are using **VSCode**, each folder exposes some tasks that will be executable from the IDE itself.
 
 **How to run the examples**
+
 Alternatively, if you want to run them on your cli, you will just need to type the following commands:
 
 ```
@@ -50,6 +52,8 @@ You will be able to run that file by just typing:
 ```
 hl game.hl
 ```
+
+(You can find more info on how the compiler works in the [.hxml](https://github.com/nientedidecente/heaps-examples/blob/master/01_heaps_color_tile/game.hxml) file itself)
 
 ### JS Examples
 Some examples, like `./12_heaps_bitmap_font` have a 2 `.hxml` files, the `game.hxml` one will be used, as in the other examples to build an `hashlink` bytecode, the `js.hxml` instead is used to transpile the heaps game to a javascript file.
