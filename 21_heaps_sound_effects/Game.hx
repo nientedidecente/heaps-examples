@@ -1,59 +1,64 @@
 /**
- * Heaps sound effect usage example.
- * Sound effects modify how it will sound :)
+ * Heaps sounds effect example.
+ * https://heaps.io/api/hxd/snd/Effect.html
  * You can find all supported effects in hxd.snd.effect package:
- * Reverb, LowPass, Pitch, Spatialization are in Heaps v. 1.5.0
+ * Reverb, LowPass, Pitch, Spatialization
  * This demo will work correctly only on HashLink target.
- * (i think that sound effects are not supported on html5 target currently)
+ * (seems like sound effects are not fully supported on js/html5 target currently)
  */
-class Game extends hxd.App
-{
-    static function main()
-    {
-        hxd.Res.initEmbed();
-        new Game();
-    }
+class Game extends hxd.App {
+	static function main() {
+		hxd.Res.initEmbed();
+		new Game();
+	}
 
-    // Array of reverb effect presets we will be using in this demo
-    var presets:Array<hxd.snd.effect.ReverbPreset>;
-    // current index of preset to use
+	// Array of reverb effect presets we will be using in this demo
+	// https://heaps.io/api/hxd/snd/effect/ReverbPreset.html
+	var presets:Array<hxd.snd.effect.ReverbPreset>;
+	// we set the preset index
 	var presetIndex:Int = 0;
 
-    override function init() 
-    {
-        presets = [];
+	var t:h2d.Text;
 
-        // Let's just read all presets that are avaiable in ReverbPreset class.
-        // They are static fields of this class (for example, DEFAULT and GENERIC).
-        // You can see this list yourself just by opening `hxd.snd.effect.ReverbPreset` file
-        // But i just lazy to manually type their names here, so i'll use some reflection:
+	override function init() {
+		presets = [];
+
+		// Here we load all presets that are available in ReverbPreset class (using Reflection).
+		// We will see some static fields like DEFAULT and GENERIC.
+		// You can see complete list on the doc `hxd.snd.effect.ReverbPreset`
+		// here we are just lazily loading them all to use them after, rather than typing them one by one.
 		var presetsFields = Reflect.fields(hxd.snd.effect.ReverbPreset);
-		for (f in presetsFields)
-		{
+		for (f in presetsFields) {
 			var firstChar = f.charAt(0);
-			if (firstChar.toUpperCase() == firstChar)
-			{
+			if (firstChar.toUpperCase() == firstChar) {
 				presets.push(Reflect.field(hxd.snd.effect.ReverbPreset, f));
 			}
 		}
-    }
 
-    override function update(dt:Float) 
-    {
-        // we will be listening for Space key to play sound with applied effect.
-        if (hxd.Key.isPressed(hxd.Key.SPACE)) 
-		{
-			// let's play sound
-            var channel = hxd.Res.sound_fx.play();
-            // and apply sound effect to newly created sound channel
+		// adding a text object n order to visualize when we play the sound
+        t = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
+        t.scale(10);
+		t.x = 20;
+		t.y = 20;
+	}
+
+	override function update(dt:Float) {
+		// In this example we are listening for the Space key press in order to play the sound with the applied effect.
+		if (hxd.Key.isPressed(hxd.Key.SPACE)) {
+			// this function will just play the sound we load from resources.
+			var channel = hxd.Res.sound_fx.play();
+			// and here we apply one of the reverb preset to the newly created sound channell
 			channel.addEffect(new hxd.snd.effect.Reverb(presets[presetIndex]));
+			t.text = 'Playing ${presetIndex}';
+			// This is just an example, on an actual project you would be calling it like so:
+			// channel.addEffect(new hxd.snd.effect.Reverb(hxd.snd.effect.ReverbPreset.CONCERTHALL));
 
-            // btw, usually you'll apply it this way:
-            // channel.addEffect(new hxd.snd.effect.Reverb(hxd.snd.effect.ReverbPreset.CONCERTHALL));
-            
-            // update preset index so it will be in array bounds
+			// here we increment the preset index so we can hear the other effects
 			presetIndex++;
+			// and we max it out at its length
 			presetIndex %= presets.length;
-		}
-    }
+		} else {
+            t.text = "";
+        }
+	}
 }
