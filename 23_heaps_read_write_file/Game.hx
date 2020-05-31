@@ -1,42 +1,35 @@
 import sys.io.File;
 import sys.FileSystem;
 
-class Game extends hxd.App
-{
-    static function main()
-    {
-        hxd.Res.initLocal();
-        
-        new Game();
-    }
+class Game extends hxd.App {
+	static function main() {
+		hxd.Res.initLocal();
 
-    override function init() 
-    {
-        var t = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
-        
-        // this file will be stored / searched for in app directory
-        var fileName = "data.txt";
-        var readNum = 0;
+		new Game();
+	}
 
-        if (!FileSystem.exists(fileName))
-        {
-            // if there is no such file, then let's create it
-            File.saveContent(fileName, 'My data...\n${readNum}');
-        }
-        else 
-        {
-            // if there is such file, then let's read its contents, trace it and modify it a bit
-            var content = File.getContent(fileName);
-            
-            t.text = content;
+	override function init() {
+		var t = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
 
-            var lines = content.split("\n");
-            readNum = Std.parseInt(lines[1]);
-            trace("readNum: " + readNum);
-            readNum++;
+		// this file will be saved/loaded from the app current running directory
+		var fileName = "data.txt";
+		var readNum = 1;
 
-            content = lines[0] + "\n" + readNum;
-            File.saveContent(fileName, content);
-        }
-    }
+		if (!FileSystem.exists(fileName)) {
+			// if the file does not exist, we create it
+			File.saveContent(fileName, 'this file was read ${readNum} time...\n');
+			t.text = "I just created the data.txt file";
+		} else {
+			// if the file was there, we will read its contents, trace it and modify it a bit
+			var content = File.getContent(fileName);
+
+			t.text = 'File content:\n\n$content';
+			var lines = content.split("\n").length;
+			trace('we read from this file $lines times');
+			readNum = lines;
+
+			content = content + 'this file was read ${readNum} times...\n';
+			File.saveContent(fileName, content);
+		}
+	}
 }
