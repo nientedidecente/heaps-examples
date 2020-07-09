@@ -1,0 +1,4 @@
+-lib heaps
+-lib hlsdl
+-main Particles2d
+-hl game.hl
